@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Lunch Challenge Generator (Admin Locked)</title>
+<title>Lunch Challenge Generator</title>
 <style>
   body {
     font-family: sans-serif;
@@ -59,8 +59,8 @@
 </head>
 <body>
   <h1>Lunch Challenge Generator</h1>
-  <button onclick="generateRandomChallenge()">🎯 Generate Random Challenge</button>
-  <button onclick="unlockEditor()">🔓 Unlock Editor</button>
+  <button onclick="generateRandomChallenge()">Generate Random Challenge</button>
+  <button onclick="unlockEditor()">Unlock Editor</button>
   <div id="challenge"></div>
 
   <div id="editorControls">
@@ -76,28 +76,30 @@
     const adminPassword = "letmein"; // Change this password as you want
     let editorUnlocked = false;
 
-    let challenges = [
-      "Get a leaf on someone's head without them noticing",
-      "Speak only in rhymes for 5 minutes",
-      "Convince someone you used to be a child actor",
-      "Pretend to misunderstand everything someone says — deliberately",
-      "Carry around an invisible baby and protect it seriously",
-      "Secretly get someone to say the word 'banana'",
-      "Swap one person’s pen for a carrot without them noticing",
-      "Start a fake petition and try to get at least 3 signatures",
-      "Only respond with song lyrics for 10 minutes",
-      "Pass someone a note with a terrible drawing of them and act proud",
-      "Get someone to high-five you three times in one sentence",
-      "Make a dramatic toast over lunch like it’s a royal banquet",
-      "Create a handshake and teach it to someone like it’s a tradition",
-      "Stare intensely at an object and claim it’s communicating with you",
-      "Try to trade your lunch item for something better, like a bartering system",
-      "Replace someone’s water with a mystery safe liquid (like juice) and act innocent",
-      "Invent a celebrity cousin and talk about them like it’s normal",
-      "Say “Did you hear about the [fake news event]?” and act very concerned",
-      "Give someone a nickname and get others to call them that too",
-      "Secretly place googly eyes on at least three things during lunch"
-    ];
+ let challenges = [];
+
+async function fetchChallenges() {
+  try {
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzOAhe_6GLVYrWobDdmpOoVmy0r4Myfa67zlKiYzyhAY_7r7mlTXwFpAwO5pcW2Jua8D4rZJ8zT95f/pubhtml';
+    const response = await fetch(url);
+    const csvText = await response.text();
+
+    // Split CSV text by new lines and trim whitespace
+    challenges = csvText
+      .split('\\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0);
+
+    renderChallengeList();
+  } catch (error) {
+    console.error('Failed to fetch challenges:', error);
+  }
+}
+
+window.onload = () => {
+  fetchChallenges();
+};
+
 
     function generateRandomChallenge() {
       const challenge = challenges[Math.floor(Math.random() * challenges.length)];
