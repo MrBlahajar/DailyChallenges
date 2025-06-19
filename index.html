@@ -80,7 +80,7 @@
 
 async function fetchChallenges() {
   try {
-    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzOAhe_6GLVYrWobDdmpOoVmy0r4Myfa67zlKiYzyhAY_7r7mlTXwFpAwO5pcW2Jua8D4rZJ8zT95f/pubhtml';
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRzOAhe_6GLVYrWobDdmpOoVmy0r4Myfa67zlKiYzyhAY_7r7mlTXwFpAwO5pcW2Jua8D4rZJ8zT95f/pub?gid=0&single=true&output=csv';
     const response = await fetch(url);
     const csvText = await response.text();
 
